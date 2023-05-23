@@ -15,17 +15,24 @@ const Square = ({
   );
 };
 const Board = () => {
+  const [xIsNext, setXIsNext] = useState<boolean>(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   const handleClick = (index: number) => {
     /** slice: create a copy of our squares array */
+    if (squares[index]) return;
     const nextSquares = squares.slice();
-    nextSquares[index] = "X";
+    if (xIsNext) {
+      nextSquares[index] = "X";
+    } else {
+      nextSquares[index] = "0";
+    }
     setSquares(nextSquares);
+    setXIsNext(!xIsNext);
   };
 
   return (
-    <div className="container">
+    <section className="container">
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -41,7 +48,7 @@ const Board = () => {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-    </div>
+    </section>
   );
 };
 
